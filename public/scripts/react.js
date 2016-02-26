@@ -1,42 +1,31 @@
 var NameComponent = React.createClass({
+	getInitialState: function() {
+		return {
+			roomName: ''
+		}
+	},
+	handleTextChange: function(e) {
+		this.setState({
+			roomName: e.target.value 
+		}, function() {
+			this.handleAppChange()
+		})
+	},
+	handleAppChange: function() {
+		this.props.onAppChange(this.state.roomName);
+	},
 	render: function() {
 		return (
-			<input className="name" placeholder="where to?" />
+			<input onChange={this.handleTextChange} className="name" placeholder="where to?" />
 		)
 	}
 })
 
 var RoomComponent = React.createClass({
 	render: function() {
+		var roomClass = "room room--" + this.props.color + " " + this.props.selected;
 		return (
-			<div className="room">
-			</div>
-		)
-	}
-})
-
-var GreenRoomComponent = React.createClass({
-	render: function() {
-		return (
-			<div className="room room--green">
-			</div>
-		)
-	}
-})
-
-var PinkRoomComponent = React.createClass({
-	render: function() {
-		return (
-			<div className="room room--pink">
-			</div>
-		)
-	}
-})
-
-var OjRoomComponent = React.createClass({
-	render: function() {
-		return (
-			<div className="room room--oj">
+			<div style={this.props.coords} className={ roomClass }>
 			</div>
 		)
 	}
@@ -44,53 +33,38 @@ var OjRoomComponent = React.createClass({
 
 var BuildingComponent = React.createClass({
 	render: function() {
-		var roomNodes = this.props.roomNames.map(function() {
-
+		var self = this;
+		var roomNodes = this.props.roomNames.map(function(item, index) {
+			var selected = "";
+			if (item.name.toLowerCase() === self.props.selectedRoom.toLowerCase()) {
+				selected = "room--active";
+			};
+			return (
+				<RoomComponent coords={item.style} selected={selected} name={item.name} color={item.color} key={index} />
+			)
 		});
 		return (
 			<div className="building">
-				<RoomComponent />
-				<GreenRoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<GreenRoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<GreenRoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<GreenRoomComponent />
-				<OjRoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<GreenRoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<PinkRoomComponent />
-				<GreenRoomComponent />
-				<RoomComponent />
-				<PinkRoomComponent />
-				<GreenRoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<RoomComponent />
-				<GreenRoomComponent />
-				<PinkRoomComponent />
-				<RoomComponent />
+				{ roomNodes }
 			</div>
 		)
 	}
 })
 
 var AppComponent = React.createClass({
+	getInitialState: function() {
+		return {
+			roomName: ''
+		}
+	},
+	handleAppChange: function(roomName) {
+		this.setState({ roomName: roomName })
+	},
 	render: function() {
 		return (
 			<div className="container" >
-				<NameComponent />
-				<BuildingComponent roomNames={this.props.roomNames} />
+				<NameComponent onAppChange={this.handleAppChange} />
+				<BuildingComponent selectedRoom={this.state.roomName} roomNames={this.props.roomNames} />
 			</div>
 		)
 	}

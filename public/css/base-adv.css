@@ -34,21 +34,27 @@ body {
 }
 
 .container {
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .building {
-  width: 33.33vw;
+  width: 440px;
+  height: 440px;
   margin: auto;
+  position: relative;
+  top:0;
+  left:0;
+  border: 5px #f2f2f2 solid;
+  border-radius: 5px;
 }
 
 .room {
-  background-color: #6ec2eb; /* change to default grey */
-  border: 5px #000 solid;
+  position: absolute;
+  background-color: #f2f2f2; /* change to default grey */
+  border: 1px #000 solid;
   width: 50px;
   height: 50px;
-  display: inline-block;
-  margin: 5px;
   font-size: 0.8em;
   transition: 0.2s linear all;
 }
@@ -75,7 +81,7 @@ body {
 
 .name {
   border: none;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   font-size: 5em;
   text-align: center;
   font-family: 'Benton Sans', sans-serif;
